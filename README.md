@@ -1,7 +1,17 @@
 # Лабораторная работа №6. Асинхронный JavaScript: API и хранилище
 
 ## Скриншоты
-(Прикрепи сюда 4 скрина: светлая тема, тёмная, отзывы с "Загрузка...", галерея)
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
+
+![alt text](image-4.png)
+
+![alt text](image-5.png)
+
+![alt text](image-6.png)
 
 ## Ответы на вопросы
 - **Что делает fetch?**  
@@ -21,4 +31,5 @@
 - Отзывы из https://api.quotable.io  
 - Галерея из Picsum.photos  
 - "Загрузка..." везде  
+
 - Всё на GitHub
