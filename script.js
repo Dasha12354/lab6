@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchQuote() {
     try {
-      const res = await fetch('https://api.api-ninjas.com/v1/quotes?category=computers', {
+      const res = await fetch('http://api.api-ninjas.com/v1/quotes?category=computers', {
         headers: { 'X-Api-Key': 'w9j1V3t8fQ2kL5xP7rY0uA==9bF6gH3mN1cD4eR8' }
       });
       if (!res.ok) throw new Error("Ошибка сервера: " + res.status);
@@ -247,6 +247,7 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
 
 
 
