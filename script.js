@@ -130,8 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // === ЗАГРУЗКА 5 ЦИТАТ С Promise.allSettled ===
-  async function loadReviews(count = 5) {
+  // === ЗАГРУЗКА 3 ЦИТАТ ===
+  async function loadReviews(count = 3) {
     reviewTextEl.textContent = "Загрузка отзывов...";
     reviews = [];
     prevBtn.disabled = true;
@@ -247,4 +247,5 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
 
