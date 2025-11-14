@@ -59,26 +59,18 @@
         </div>
       </section>
 
-      <section class="reviews-section">
-        <h2>Отзывы читателей</h2>
-        <div class="reviews-carousel">
-          <div class="review">
-            <p class="review-text">Загрузка...</p>
-            <span class="review-author">— Кто-то умный</span>
-          </div>
-          <div class="review">
-            <p class="review-text">Загрузка...</p>
-            <span class="review-author">— Ещё один философ</span>
-          </div>
-          <div class="review">
-            <p class="review-text">Загрузка...</p>
-            <span class="review-author">— Великий мыслитель</span>
-          </div>
-        </div>
-        <button id="refreshQuotes">Обновить цитаты</button>
-      </section>
-    </main>
-
+     <section class="reviews-section">
+  <h2>Отзывы читателей</h2>
+  <div class="reviews-carousel">
+    <button id="prevReview" class="nav-btn">←</button>
+    <div class="review">
+      <p id="reviewText">Загрузка отзывов...</p>
+    </div>
+    <button id="nextReview" class="nav-btn">→</button>
+  </div>
+  <button id="refreshQuotes">Обновить цитаты</button>
+</section>
+      
     <aside>
       <h3>Обо мне</h3>
       <p>Меня зовут Дарья Роик. Я студентка, увлекаюсь технологиями, творчеством и саморазвитием.</p>
@@ -113,4 +105,5 @@
   <!-- Подключаем JS -->
   <script src="script.js"></script>
 </body>
+
 </html>
