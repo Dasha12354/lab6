@@ -114,7 +114,7 @@ async function loadQuotes() {
   
   for (let i = 0; i < reviewTexts.length; i++) {
     try {
-      const res = await fetch('https://api.quotable.io/random');
+      const res = await fetch('http://api.quotable.io/random');
       const data = await res.json();
       reviewTexts[i].textContent = data.content;
     } catch (err) {
@@ -189,4 +189,5 @@ function rebindFilters() {
 // Загружаем при старте
 loadImages().then(() => {
   rebindFilters();
+
 });
