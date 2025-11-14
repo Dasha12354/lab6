@@ -118,14 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // === API ===
   async function fetchQuote() {
     try {
-      const res = await fetch('https://api.api-ninjas.com/v1/quotes?category=computers', {
-        headers: { 'X-Api-Key': 'w9j1V3t8fQ2kL5xP7rY0uA==9bF6gH3mN1cD4eR8' }
-      });
+      const res = await fetch('https://programming-quotes-api.herokuapp.com/quotes/random');
       if (!res.ok) throw new Error("Сервер: " + res.status);
       const data = await res.json();
-      return `"${data[0].quote}" — ${data[0].author}`;
+      return `"${data.quote}" — ${data.author}`;
     } catch (err) {
-      console.error("Ошибка:", err);
+      console.error("Ошибка загрузки:", err);
       return "Отзыв недоступен. Попробуйте позже.";
     }
   }
@@ -142,15 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
     reviews = results.map(r => r.status === 'fulfilled' ? r.value : "Отзыв недоступен.");
 
     currentIndex = 0;
-    displayReview(); 
+    displayReview();
   }
 
-  // === ОТОБРАЖЕНИЕ + КНОПКИ ===
+  // === ОТОБРАЖЕНИЕ ===
   function displayReview() {
     if (reviews.length === 0) {
       reviewTextEl.textContent = "Отзывы недоступны.";
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
     } else {
       reviewTextEl.textContent = reviews[currentIndex];
       prevBtn.disabled = currentIndex === 0;
@@ -173,12 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // === КНОПКА ОБНОВЛЕНИЯ  ===
-  refreshBtn.addEventListener('click', () => {
-    loadReviews();
-  });
+  // === ОБНОВИТЬ ===
+  refreshBtn.addEventListener('click', loadReviews);
 
-  // === СТАРТ ===
   loadReviews();
 });
 
@@ -246,6 +239,7 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
 
 
 
