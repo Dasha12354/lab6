@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === ОТОБРАЖЕНИЕ ТЕКУЩЕЙ ЦИТАТЫ ===
-  function displayReview(index) {
+ function displayReview(index) {
     if (reviews.length === 0) {
       reviewTextEl.textContent = "Отзывы недоступны.";
       prevBtn.disabled = true;
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // === ПЕРЕКЛЮЧЕНИЕ ЦИТАТ ===
+  // === ПЕРЕКЛЮЧЕНИЕ ← → ===
   prevBtn.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex--;
@@ -177,10 +177,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // === КНОПКА ОБНОВЛЕНИЯ ===
-  refreshBtn.addEventListener('click', () => loadReviews(5));
+  refreshBtn.addEventListener('click', () => loadReviews(3));
 
   // === СТАРТ ===
-  loadReviews(5);
+  loadReviews(3);
 });
 
 // === ДИНАМИЧЕСКАЯ ГАЛЕРЕЯ ===
@@ -247,5 +247,6 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
 
 
