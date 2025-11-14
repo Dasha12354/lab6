@@ -106,26 +106,82 @@ darkBtn.addEventListener('click', () => {
 });
 
 // === ОТЗЫВЫ С API ===
-const reviewTexts = document.querySelectorAll('.review-text');
-const refreshBtn = document.getElementById('refreshQuotes');
+document.addEventListener('DOMContentLoaded', () => {
+  const reviewTextEl = document.getElementById('reviewText');
+  const prevBtn = document.getElementById('prevReview');
+  const nextBtn = document.getElementById('nextReview');
+  const refreshBtn = document.getElementById('refreshQuotes');
 
-async function loadQuotes() {
-  reviewTexts.forEach(el => el.textContent = 'Загрузка...');
-  
-  for (let i = 0; i < reviewTexts.length; i++) {
+  let reviews = [];
+  let currentIndex = 0;
+
+
+  async function fetchQuote() {
     try {
-      const res = await fetch('http://api.quotable.io/random');
+      const res = await fetch('https://api.api-ninjas.com/v1/quotes?category=computers', {
+        headers: { 'X-Api-Key': 'w9j1V3t8fQ2kL5xP7rY0uA==9bF6gH3mN1cD4eR8' }
+      });
+      if (!res.ok) throw new Error("Ошибка сервера: " + res.status);
       const data = await res.json();
-      reviewTexts[i].textContent = data.content;
+      return `"${data[0].quote}" — ${data[0].author}`;
     } catch (err) {
-      reviewTexts[i].textContent = 'Не удалось загрузить цитату 😔';
+      console.error("fetchQuote error:", err);
+      return "Отзыв недоступен. Попробуйте обновить страницу.";
     }
   }
-}
 
-// Загружаем при старте и по кнопке
-loadQuotes();
-refreshBtn.addEventListener('click', loadQuotes);
+  // === ЗАГРУЗКА 5 ЦИТАТ С Promise.allSettled ===
+  async function loadReviews(count = 5) {
+    reviewTextEl.textContent = "Загрузка отзывов...";
+    reviews = [];
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+
+    const promises = Array.from({ length: count }, () => fetchQuote());
+    const results = await Promise.allSettled(promises);
+
+    results.forEach(r => {
+      reviews.push(r.status === 'fulfilled' ? r.value : "Отзыв недоступен.");
+    });
+
+    currentIndex = 0;
+    displayReview(currentIndex);
+  }
+
+  // === ОТОБРАЖЕНИЕ ТЕКУЩЕЙ ЦИТАТЫ ===
+  function displayReview(index) {
+    if (reviews.length === 0) {
+      reviewTextEl.textContent = "Отзывы недоступны.";
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+    } else {
+      reviewTextEl.textContent = reviews[index];
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === reviews.length - 1;
+    }
+  }
+
+  // === ПЕРЕКЛЮЧЕНИЕ ЦИТАТ ===
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      displayReview(currentIndex);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < reviews.length - 1) {
+      currentIndex++;
+      displayReview(currentIndex);
+    }
+  });
+
+  // === КНОПКА ОБНОВЛЕНИЯ ===
+  refreshBtn.addEventListener('click', () => loadReviews(5));
+
+  // === СТАРТ ===
+  loadReviews(5);
+});
 
 // === ДИНАМИЧЕСКАЯ ГАЛЕРЕЯ ===
 const galleryContainer = document.getElementById('dynamicGallery');
@@ -191,3 +247,4 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
