@@ -115,49 +115,46 @@ document.addEventListener('DOMContentLoaded', () => {
   let reviews = [];
   let currentIndex = 0;
 
-
+  // === API ===
   async function fetchQuote() {
     try {
       const res = await fetch('https://api.api-ninjas.com/v1/quotes?category=computers', {
         headers: { 'X-Api-Key': 'w9j1V3t8fQ2kL5xP7rY0uA==9bF6gH3mN1cD4eR8' }
       });
-      if (!res.ok) throw new Error("Ошибка сервера: " + res.status);
+      if (!res.ok) throw new Error("Сервер: " + res.status);
       const data = await res.json();
       return `"${data[0].quote}" — ${data[0].author}`;
     } catch (err) {
-      console.error("fetchQuote error:", err);
-      return "Отзыв недоступен. Попробуйте обновить страницу.";
+      console.error("Ошибка:", err);
+      return "Отзыв недоступен. Попробуйте позже.";
     }
   }
 
   // === ЗАГРУЗКА 3 ЦИТАТ ===
-  async function loadReviews(count = 3) {
+  async function loadReviews() {
     reviewTextEl.textContent = "Загрузка отзывов...";
-    reviews = [];
     prevBtn.disabled = true;
     nextBtn.disabled = true;
 
-    const promises = Array.from({ length: count }, () => fetchQuote());
+    const promises = Array.from({ length: 3 }, () => fetchQuote());
     const results = await Promise.allSettled(promises);
 
-    results.forEach(r => {
-      reviews.push(r.status === 'fulfilled' ? r.value : "Отзыв недоступен.");
-    });
+    reviews = results.map(r => r.status === 'fulfilled' ? r.value : "Отзыв недоступен.");
 
     currentIndex = 0;
-    displayReview(currentIndex);
+    displayReview(); 
   }
 
-  // === ОТОБРАЖЕНИЕ ТЕКУЩЕЙ ЦИТАТЫ ===
- function displayReview(index) {
+  // === ОТОБРАЖЕНИЕ + КНОПКИ ===
+  function displayReview() {
     if (reviews.length === 0) {
       reviewTextEl.textContent = "Отзывы недоступны.";
       prevBtn.disabled = true;
       nextBtn.disabled = true;
     } else {
-      reviewTextEl.textContent = reviews[index];
-      prevBtn.disabled = index === 0;
-      nextBtn.disabled = index === reviews.length - 1;
+      reviewTextEl.textContent = reviews[currentIndex];
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === reviews.length - 1;
     }
   }
 
@@ -165,22 +162,24 @@ document.addEventListener('DOMContentLoaded', () => {
   prevBtn.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex--;
-      displayReview(currentIndex);
+      displayReview();
     }
   });
 
   nextBtn.addEventListener('click', () => {
     if (currentIndex < reviews.length - 1) {
       currentIndex++;
-      displayReview(currentIndex);
+      displayReview();
     }
   });
 
-  // === КНОПКА ОБНОВЛЕНИЯ ===
-  refreshBtn.addEventListener('click', () => loadReviews(3));
+  // === КНОПКА ОБНОВЛЕНИЯ  ===
+  refreshBtn.addEventListener('click', () => {
+    loadReviews();
+  });
 
   // === СТАРТ ===
-  loadReviews(3);
+  loadReviews();
 });
 
 // === ДИНАМИЧЕСКАЯ ГАЛЕРЕЯ ===
@@ -247,6 +246,7 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
 
 
 
