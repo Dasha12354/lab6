@@ -106,74 +106,27 @@ darkBtn.addEventListener('click', () => {
 });
 
 // === ОТЗЫВЫ С API ===
-document.addEventListener('DOMContentLoaded', () => {
-  const reviewTextEl = document.getElementById('reviewText');
-  const prevBtn = document.getElementById('prevReview');
-  const nextBtn = document.getElementById('nextReview');
-  const refreshBtn = document.getElementById('refreshQuotes');
+const reviewBox = document.getElementById("reviews");
+const newReviewsBtn = document.getElementById("newReviewsBtn");
 
-  let reviews = [];
-  let currentIndex = 0;
+async function loadReview() {
+  reviewBox.innerHTML = "Загрузка...";
 
-  // === API ===
-  async function fetchQuote() {
-    try {
-      const res = await fetch('https://programming-quotes-api.herokuapp.com/quotes/random');
-      if (!res.ok) throw new Error("Сервер: " + res.status);
-      const data = await res.json();
-      return `"${data.quote}" — ${data.author}`;
-    } catch (err) {
-      console.error("Ошибка загрузки:", err);
-      return "Отзыв недоступен. Попробуйте позже.";
-    }
+  try {
+    const res = await fetch("https://dummyjson.com/quotes/random");
+    const data = await res.json();
+
+    reviewBox.innerHTML = `
+      <p style="font-size:18px;"><i>"${data.quote}"</i></p>
+      <p><b>— ${data.author}</b></p>
+    `;
+  } catch {
+    reviewBox.innerHTML = "Ошибка загрузки...";
   }
+}
 
-  // === ЗАГРУЗКА 3 ЦИТАТ ===
-  async function loadReviews() {
-    reviewTextEl.textContent = "Загрузка отзывов...";
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-
-    const promises = Array.from({ length: 3 }, () => fetchQuote());
-    const results = await Promise.allSettled(promises);
-
-    reviews = results.map(r => r.status === 'fulfilled' ? r.value : "Отзыв недоступен.");
-
-    currentIndex = 0;
-    displayReview();
-  }
-
-  // === ОТОБРАЖЕНИЕ ===
-  function displayReview() {
-    if (reviews.length === 0) {
-      reviewTextEl.textContent = "Отзывы недоступны.";
-    } else {
-      reviewTextEl.textContent = reviews[currentIndex];
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex === reviews.length - 1;
-    }
-  }
-
-  // === ПЕРЕКЛЮЧЕНИЕ ← → ===
-  prevBtn.addEventListener('click', () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      displayReview();
-    }
-  });
-
-  nextBtn.addEventListener('click', () => {
-    if (currentIndex < reviews.length - 1) {
-      currentIndex++;
-      displayReview();
-    }
-  });
-
-  // === ОБНОВИТЬ ===
-  refreshBtn.addEventListener('click', loadReviews);
-
-  loadReviews();
-});
+newReviewsBtn.onclick = loadReview;
+loadReview();
 
 // === ДИНАМИЧЕСКАЯ ГАЛЕРЕЯ ===
 const galleryContainer = document.getElementById('dynamicGallery');
@@ -239,6 +192,7 @@ loadImages().then(() => {
   rebindFilters();
 
 });
+
 
 
 
