@@ -5,7 +5,7 @@
 
 <img width="355" height="119" alt="image" src="https://github.com/user-attachments/assets/b0a19978-72de-4d78-a94b-cb7ac23ea53a" />
 
-<img width="583" height="853" alt="image" src="https://github.com/user-attachments/assets/7b1f85d2-8bf4-46ae-b86b-ce6f8a10b33d" />
+<img width="716" height="279" alt="image" src="https://github.com/user-attachments/assets/ea287955-9689-46aa-a2f7-c703f00f7225" />
 
 <img width="712" height="885" alt="image" src="https://github.com/user-attachments/assets/5b837e1d-cb10-423c-83d7-52bf59708aa4" />
 
@@ -34,4 +34,5 @@
 - "Загрузка..." везде  
 
 - Всё на GitHub
+
 
